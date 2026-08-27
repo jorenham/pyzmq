@@ -9,7 +9,7 @@ from .socket import Socket
 from .utils import _retry_sys_call
 
 
-def proxy(frontend, backend, capture=None):
+def proxy(frontend: Socket, backend: Socket, capture: Socket | None = None) -> None:
     if isinstance(capture, Socket):
         capture = capture._zmq_socket
     else:
@@ -18,7 +18,12 @@ def proxy(frontend, backend, capture=None):
     _retry_sys_call(C.zmq_proxy, frontend._zmq_socket, backend._zmq_socket, capture)
 
 
-def proxy_steerable(frontend, backend, capture=None, control=None):
+def proxy_steerable(
+    frontend: Socket,
+    backend: Socket,
+    capture: Socket | None = None,
+    control: Socket | None = None,
+) -> None:
     """proxy_steerable(frontend, backend, capture, control)
 
     Start a zeromq proxy with control flow.
